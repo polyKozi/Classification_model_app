@@ -1,18 +1,19 @@
 import streamlit as st
-import pickle
-import tensorflow as tf
-import os
 
-with open('model_pic_clf.pkl', 'rb') as pkl_file:
-    my_model = pickle.load(pkl_file)
+def predict():
+    import pickle
+    with open('model_pic_clf.pkl', 'rb') as pkl_file:
+        my_model = pickle.load(pkl_file)
+    import tensorflow as tf
+    import os
+    path_to_zip = tf.keras.utils.get_file('Pets.zip', extract=True)
+    PATH = os.path.join(os.path.dirname(path_to_zip), 'Pets_filtered')
 
-path_to_zip = tf.keras.utils.get_file('Pets.zip', extract=True)
-PATH = os.path.join(os.path.dirname(path_to_zip), 'Pets_filtered')
+    BATCH_SIZE = 5
+    IMG_SIZE = (224, 224)
 
-BATCH_SIZE = 5
-IMG_SIZE = (224, 224)
-
-dataset = tf.keras.utils.image_dataset_from_directory(PATH, shuffle=True, batch_size=BATCH_SIZE, image_size=IMG_SIZE)
+    dataset = tf.keras.utils.image_dataset_from_directory(PATH, shuffle=True, batch_size=BATCH_SIZE, image_size=IMG_SIZE)
+    return my_model.predict(dataset)
 
 def main():
     page = st.sidebar.selectbox("Choose a page", ["Description", "Model"])
@@ -24,7 +25,7 @@ def main():
     elif page == "Model":
         st.title("Model")
         if st.button("Predict"):
-            st.write(my_model.predict(dataset))
+            st.write(predict())
 
 if __name__ == "__main__":
     main()
