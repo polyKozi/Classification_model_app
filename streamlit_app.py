@@ -1,25 +1,35 @@
 import streamlit as st
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
-import pandas as pd
 import pickle
+import numpy as np
 
-df_win_pr = pd.DataFrame()
-df_win_pr = pd.read_csv('wine_preprocessed.csv', sep=',')
+X_test = np.array([[-4.04709098e-01, -7.29615881e-01, -3.77393586e-01,  3.34635593e-01,
+  -1.43860092e+00, -1.44910579e+00, -5.50044336e-01,  1.71852633e+00,
+   9.54683230e-02, -9.07393898e-01,  3.66857409e-02, -7.24048580e-01,
+  -8.07071780e-01]
+ [ 1.04564400e+00, -8.91387063e-01, -3.41208651e-01, -1.02468148e+00,
+  -1.55158005e-01,  1.05669249e+00,  1.10595416e+00, -1.12731319e+00,
+   4.94699492e-01,  8.57615709e-01,  2.56676248e-01,  1.36107730e+00,
+   8.96411978e-01]
+ [-1.74349657e+00, -8.91387063e-01,  1.21474357e+00,  1.32184114e-01,
+  -4.40367540e-01,  6.80822744e-01,  8.80581580e-01, -5.73955506e-01,
+   1.60560361e+00, -1.07669938e+00,  3.66857409e-02,  9.55247432e-01,
+  -2.34081789e-01]
+ [ 3.51457900e-01, -5.58857410e-01, -8.11612810e-01, -7.35465079e-01,
+  -4.40367540e-01,  1.48340611e-01,  1.65268622e-01, -7.32057702e-01,
+  -3.73194353e-01, -5.26456573e-01,  3.00674349e-01,  2.69534894e-01,
+   1.63975034e+00]
+ [ 1.77911376e-01,  1.63290161e-02,  1.10618876e+00, -2.72718843e-01,
+   5.87491473e-02,  7.74790180e-01,  1.19414342e+00, -4.94904408e-01,
+   2.16105567e+00,  2.05789619e-01,  3.44672451e-01,  8.29300231e-01,
+   1.33002603e+00]
+ [ 1.70264155e+00, -4.24048092e-01,  3.10120185e-01, -1.42958443e+00,
+  -2.97762772e-01,  3.04953003e-01,  4.88629274e-01, -4.94904408e-01,
+   7.20351891e-01,  2.37862303e-02,  3.00674349e-01,  1.40305970e+00,
+   1.65523656e+00]])
+y_test = np.array([2, 1, 2, 1, 1, 1])
 
-x_useful_col = ["alcohol", "malic_acid", "ash", "alcalinity_of_ash", "magnesium", "total_phenols", "flavanoids", "nonflavanoid_phenols", "proanthocyanins", "color_intensity", "hue", "OD280/OD315_of_diluted wines", "proline"]
-X = df_win_pr[x_useful_col]
-y = df_win_pr.iloc[:, 1].values
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20)
-
-scaler = StandardScaler()
-scaler.fit(X_train)
-
-X_train = scaler.transform(X_train)
-X_test = scaler.transform(X_test)
-
-with open('model_pic_clf.pkl', 'rb') as pkl_file:
+with open('..\notebooks\data\model_pic_clf.pkl', 'rb') as pkl_file:
     clf = pickle.load(pkl_file)
 
 def main():
@@ -33,7 +43,7 @@ def main():
         st.title("Model")
         if st.button("Predict"):
             st.write("Prediction:", clf.predict(X_test))
-            st.write("True", y_train)
+            st.write("True", y_test)
 
 if __name__ == "__main__":
     main()
