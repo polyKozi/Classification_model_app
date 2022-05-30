@@ -11,7 +11,7 @@ X_test = np.array([[-4.04, -7.29, -3.77,  3.34, -1.43, -1.44, -5.50,  1.71, 9.54
 y_test = np.array([2, 1, 2, 1, 1, 1])
 
 
-with open('..\notebooks\data\model_pic_clf.pkl', 'rb') as pkl_file:
+with open('model_pic_clf.pkl', 'rb') as pkl_file:
     clf = pickle.load(pkl_file)
 
 def main():
