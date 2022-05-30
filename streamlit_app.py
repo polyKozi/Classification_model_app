@@ -5,7 +5,7 @@ import pandas as pd
 import pickle
 
 df_win_pr = pd.DataFrame()
-df_win_pr = pd.read_csv('../notebooks/data/wine_preprocessed.csv', sep=',')
+df_win_pr = pd.read_csv('wine_preprocessed.csv', sep=',')
 
 x_useful_col = ["alcohol", "malic_acid", "ash", "alcalinity_of_ash", "magnesium", "total_phenols", "flavanoids", "nonflavanoid_phenols", "proanthocyanins", "color_intensity", "hue", "OD280/OD315_of_diluted wines", "proline"]
 X = df_win_pr[x_useful_col]
@@ -19,7 +19,7 @@ scaler.fit(X_train)
 X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
 
-with open('..\notebooks\data\model_pic_clf.pkl', 'rb') as pkl_file:
+with open('model_pic_clf.pkl', 'rb') as pkl_file:
     clf = pickle.load(pkl_file)
 
 def main():
