@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
@@ -19,7 +19,7 @@ scaler.fit(X_train)
 X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
 
-clf = GaussianNB()
+clf = KNeighborsClassifier(n_neighbors=5)
 clf = clf.fit(X_train, y_train)
 
 def main():
