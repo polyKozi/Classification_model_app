@@ -1,11 +1,11 @@
 import streamlit as st
-import pandas as pd
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
+import pandas as pd
+import pickle
 
 df_win_pr = pd.DataFrame()
-df_win_pr = pd.read_csv('data/wine_preprocessed.csv', sep=',')
+df_win_pr = pd.read_csv('../notebooks/data/wine_preprocessed.csv', sep=',')
 
 x_useful_col = ["alcohol", "malic_acid", "ash", "alcalinity_of_ash", "magnesium", "total_phenols", "flavanoids", "nonflavanoid_phenols", "proanthocyanins", "color_intensity", "hue", "OD280/OD315_of_diluted wines", "proline"]
 X = df_win_pr[x_useful_col]
@@ -19,8 +19,8 @@ scaler.fit(X_train)
 X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
 
-clf = KNeighborsClassifier(n_neighbors=5)
-clf = clf.fit(X_train, y_train)
+with open('..\notebooks\data\model_pic_clf.pkl', 'rb') as pkl_file:
+    clf = pickle.load(pkl_file)
 
 def main():
     page = st.sidebar.selectbox("Choose a page", ["Description", "Model"])
@@ -32,7 +32,8 @@ def main():
     elif page == "Model":
         st.title("Model")
         if st.button("Predict"):
-            st.write(clf.predict(X_test))
+            st.write("Prediction:", clf.predict(X_test))
+            st.write("True", y_train)
 
 if __name__ == "__main__":
     main()
