@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from sklearn import tree
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
@@ -19,7 +19,7 @@ scaler.fit(X_train)
 X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
 
-clf = tree.DecisionTreeClassifier()
+clf = DecisionTreeClassifier()
 clf = clf.fit(X_train, y_train)
 
 def main():
